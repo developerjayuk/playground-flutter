@@ -11,12 +11,31 @@ class ImageList extends StatelessWidget {
     return ListView.builder(
       itemCount: images.length,
       itemBuilder: (context, int index) {
-        return Container(
-          margin: EdgeInsets.all(20.0),
-          child: Image.network('https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Banana-Single.jpg/1162px-Banana-Single.jpg'),
-          // child: Image.network(images[index].url),
-        );
+        return buildImage(images[index]);
       },
+    );
+  }
+
+  Widget buildImage(ImageModel image) {
+    return Container(
+      padding: EdgeInsets.all(20.0),
+      margin: EdgeInsets.all(20.0),
+      decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+      // child: Image.network(
+      //   'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Banana-Single.jpg/1162px-Banana-Single.jpg',
+      // ),
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(bottom: 8.0),
+            child: Image.network(
+              'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Banana-Single.jpg/1162px-Banana-Single.jpg',
+            ),
+          ),
+
+          Text(image.title),
+        ],
+      ),
     );
   }
 }
