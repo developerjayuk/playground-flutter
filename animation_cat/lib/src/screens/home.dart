@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/cat.dart';
+import 'dart:math';
 
 class Home extends StatefulWidget {
   @override
@@ -15,36 +16,67 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
     super.initState();
 
     catController = AnimationController(
-      duration: Duration(seconds: 2),
+      duration: Duration(milliseconds: 750),
       vsync: this,
     );
 
     catAnimation = Tween(
-      begin: 0.0,
-      end: 100.0,
+      begin: -25.0,
+      end: -80.0,
     ).animate(CurvedAnimation(parent: catController, curve: Curves.easeIn));
+  }
 
-    catController.forward();
+  onTap() {
+    if (catController.status == AnimationStatus.completed) {
+      catController.reverse();
+    } else if (catController.status == AnimationStatus.dismissed) {
+      catController.forward();
+    }
   }
 
   @override
   Widget build(context) {
     return Scaffold(
       appBar: AppBar(title: Text('Animation Cat!')),
-      body: buildAnimation(),
+      body: GestureDetector(
+        onTap: onTap,
+        child: Center(
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [buildCatAnimation(), buildBox(), buildLeftFlap()],
+          ),
+        ),
+      ),
     );
   }
 
-  Widget buildAnimation() {
+  Widget buildCatAnimation() {
     return AnimatedBuilder(
       animation: catAnimation,
       builder: (context, child) {
-        return Container(
-          margin: EdgeInsets.only(top: catAnimation.value),
-          child: child,
+        return Positioned(
+          top: catAnimation.value,
+          right: 0.0,
+          left: 0.0,
+          child: child!,
         );
       },
       child: Cat(),
+    );
+  }
+
+  Widget buildBox() {
+    return Container(height: 200.0, width: 200.0, color: Colors.brown);
+  }
+
+  Widget buildLeftFlap() {
+    return Positioned(
+      left: 2.0,
+      child: Transform.rotate(
+        angle: pi / 1.7,
+        alignment: Alignment.topLeft,
+        child: Container(height: 5.0, width: 100.0, color: Colors.brown),
+      ),
     );
   }
 }
