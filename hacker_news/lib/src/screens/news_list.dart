@@ -5,7 +5,9 @@ class NewsList extends StatelessWidget {
   Widget build(context) {
     return Scaffold(
       appBar: AppBar(title: Text('Top News')),
-      body: Text('Some news is here!'),
+      body: buildList(),
     );
   }
+
+
 }
