@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../blocs/stories_provider.dart';
+import '../widgets/news_list_square.dart';
 
 class NewsList extends StatelessWidget {
   @override
@@ -24,7 +25,10 @@ class NewsList extends StatelessWidget {
         return ListView.builder(
           itemCount: snapshot.data!.length,
           itemBuilder: (context, int index) {
-            return Text('${snapshot.data?[index]}');
+            final id = snapshot.data![index];
+            bloc.fetchItem(id);
+
+            return NewsListSquare(itemId: id);
           },
         );
       },

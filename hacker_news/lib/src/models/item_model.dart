@@ -16,15 +16,15 @@ class ItemModel {
   final int? descendants;
 
   ItemModel.fromJson(Map<String, dynamic> parsedJson)
-    : id = parsedJson['id'],
-      deleted = parsedJson['deleted'],
+    : id = parsedJson['id'] ?? 0,
+      deleted = parsedJson['deleted'] ?? false,
       type = parsedJson['type'],
       by = parsedJson['by'],
       time = parsedJson['time'],
-      text = parsedJson['text'],
-      dead = parsedJson['dead'],
+      text = parsedJson['text'] ?? '',
+      dead = parsedJson['dead'] ?? false,
       parent = parsedJson['parent'],
-      kids = parsedJson['kids'],
+      kids = parsedJson['kids'] ?? [],
       url = parsedJson['url'],
       score = parsedJson['score'],
       title = parsedJson['title'],
@@ -61,5 +61,10 @@ class ItemModel {
       "dead": (dead == true) ? 1 : 0,
       "kids": jsonEncode(kids),
     };
+  }
+
+  @override
+  String toString() {
+    return 'ItemModel(id: $id, title: $title, by: $by, score: $score, url: $url)';
   }
 }
