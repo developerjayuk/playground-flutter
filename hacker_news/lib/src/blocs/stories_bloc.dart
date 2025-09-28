@@ -22,6 +22,10 @@ class StoriesBloc {
     _itemsFetcher.stream.transform(_itemsTransformer()).pipe(_itemsOutput);
   }
 
+  clearCache() {
+    _repository.clearCache();
+  }
+
   _itemsTransformer() {
     return ScanStreamTransformer((
       Map<int, Future<ItemModel>> cache,

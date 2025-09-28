@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/loading_container.dart';
 import '../models/item_model.dart';
 import '../blocs/stories_provider.dart';
 
@@ -15,11 +16,8 @@ class NewsListSquare extends StatelessWidget {
       stream: bloc.items,
       builder: (context, AsyncSnapshot<Map<int, Future<ItemModel>>> snapshot) {
         if (!snapshot.hasData) {
-          return Text('Stream still loading bruh!');
+          return LoadingContainer();
         }
-
-        print('Stream has data, looking for itemId: $itemId');
-        print('Available items: ${snapshot.data!.keys}');
 
         if (!snapshot.data!.containsKey(itemId)) {
           print('Item $itemId not found in stream, triggering fetch');
@@ -35,7 +33,7 @@ class NewsListSquare extends StatelessWidget {
               return Text('Error loading item $itemId: ${itemSnapshot.error}');
             }
             if (!itemSnapshot.hasData) {
-              return Text('Still loading item $itemId');
+              return LoadingContainer();
             }
             return buildSquare(itemSnapshot.data!);
           },
@@ -45,9 +43,17 @@ class NewsListSquare extends StatelessWidget {
   }
 
   Widget buildSquare(ItemModel item) {
-    return ListTile(
-      title: Text(item.title ?? ''),
-      subtitle: Text('${item.score} points'),
+    return Column(
+      children: [
+        ListTile(
+          title: Text(item.title ?? ''),
+          subtitle: Text('${item.score} points'),
+          trailing: Column(
+            children: [Icon(Icons.comment), Text('${item.descendants}')],
+          ),
+        ),
+        Divider(height: 8.0),
+      ],
     );
   }
 }
