@@ -6,8 +6,9 @@ import '../blocs/stories_provider.dart';
 class NewsListSquare extends StatelessWidget {
   final int itemId;
 
-  NewsListSquare({required this.itemId});
+  const NewsListSquare({super.key, required this.itemId});
 
+  @override
   Widget build(context) {
     final bloc = StoriesProvider.of(context);
     print('Building NewsListSquare for itemId: $itemId');
@@ -35,14 +36,14 @@ class NewsListSquare extends StatelessWidget {
             if (!itemSnapshot.hasData) {
               return LoadingContainer();
             }
-            return buildSquare(itemSnapshot.data!);
+            return buildSquare(context, itemSnapshot.data!);
           },
         );
       },
     );
   }
 
-  Widget buildSquare(ItemModel item) {
+  Widget buildSquare(BuildContext context, ItemModel item) {
     return Column(
       children: [
         ListTile(
@@ -51,6 +52,10 @@ class NewsListSquare extends StatelessWidget {
           trailing: Column(
             children: [Icon(Icons.comment), Text('${item.descendants}')],
           ),
+          onTap: () {
+            print('Item was tapped: ${item.id}');
+            Navigator.pushNamed(context, '/${item.id}');
+          },
         ),
         Divider(height: 8.0),
       ],
