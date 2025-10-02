@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:hacker_news/src/models/item_model.dart';
 import '../blocs/comments_provider.dart';
 import '../models/item_model.dart';
+import '../widgets/comment.dart';
 
 class NewsDetail extends StatelessWidget {
   final int itemId;
@@ -35,22 +36,41 @@ class NewsDetail extends StatelessWidget {
               return Text('Loading');
             }
 
-            return buildTitle(itemSnapshot.data!);
+            return buildList(itemSnapshot.data, snapshot.data);
           },
         );
       },
     );
   }
 
-  Widget buildTitle(ItemModel item) {
+  Widget buildList(ItemModel? item, Map<int, Future<ItemModel>>? itemMap) {
+    final children = <Widget>[];
+    children.add(buildTitle(item));
+
+    if (item == null || itemMap == null) {
+      return Text('No data available');
+    }
+
+    final commentsList = item.kids?.map((commentId) {
+      return Comment(itemId: commentId, itemMap: itemMap, depth: 0);
+    }).toList();
+
+    if (commentsList != null) {
+      children.addAll(commentsList);
+    }
+
+    return ListView(children: children);
+  }
+
+  Widget buildTitle(ItemModel? item) {
     return Container(
       margin: EdgeInsets.all(10.0),
       alignment: Alignment.topCenter,
       child: Text(
-        item.title ?? 'n/a',
+        item?.title ?? 'n/a',
         textAlign: TextAlign.center,
         style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-      )
+      ),
     );
   }
 }

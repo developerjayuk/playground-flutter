@@ -34,7 +34,7 @@ class ItemModel {
     : id = parsedJson['id'],
       deleted = parsedJson['deleted'] == 1, // boolean
       type = parsedJson['type'],
-      by = parsedJson['by'],
+      by = parsedJson['by'] ?? '',
       time = parsedJson['time'],
       text = parsedJson['text'],
       dead = parsedJson['dead'] == 1,
