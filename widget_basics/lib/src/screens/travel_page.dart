@@ -7,6 +7,7 @@ class TravelPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text('Travel')),
       backgroundColor: Colors.white,
       bottomNavigationBar: NavigationBar(
         destinations: [
