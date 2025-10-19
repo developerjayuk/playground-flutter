@@ -26,7 +26,8 @@ class _CounterPageState extends State<CounterPage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('You have pushed the button too many times!!!!'),
+            if (count >= 10)
+              Text('You have pushed the button too many times!!!!'),
             Text("$count", style: TextStyle(fontSize: 50.0)),
           ],
         ),

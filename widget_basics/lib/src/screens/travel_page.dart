@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:widget_basics/src/components/action_menu_item.dart';
 
-class TravelPage extends StatelessWidget {
+class TravelPage extends StatefulWidget {
   const TravelPage({super.key});
+
+  @override
+  State<TravelPage> createState() => _TravelPageState();
+}
+
+class _TravelPageState extends State<TravelPage> {
+  int imageIndex = 0;
+  List<String> images = [
+    "https://johnnyafrica.com/wp-content/uploads/2018/01/305657-mountain-view.jpg",
+    "https://passportpilgrimage.com/wp-content/uploads/2024/01/Indian-Nose-Hike.png",
+    "https://i0.wp.com/wareontheglobe.com/wp-content/uploads/2024/08/IMG_9464.jpeg?resize=705%2C435&ssl=1",
+    "https://travelwithneweyes.com/wp-content/uploads/2023/01/20221027_090802-min.jpg",
+    "https://weareglobaltravellers.com/wp-content/uploads/2022/02/We-Are-Global-Travellers-Best-things-to-do-in-Lake-Atitlan-Guatemala-2.jpg",
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +36,7 @@ class TravelPage extends StatelessWidget {
             Stack(
               children: [
                 Image.network(
-                  'https://www.muchbetteradventures.com/magazine/content/images/size/w2000/2025/03/lake-atitlan-guatemala.jpg',
+                  images[imageIndex],
                   width: double.infinity,
                   fit: BoxFit.fitWidth,
                 ),
@@ -35,6 +49,26 @@ class TravelPage extends StatelessWidget {
                       color: Colors.white,
                       fontSize: 40.0,
                       fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 10.0,
+                  right: 20.0,
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        if (imageIndex < images.length - 2) {
+                          imageIndex++;
+                        } else {
+                          imageIndex = 0;
+                        }
+                      });
+                    },
+                    child: Icon(
+                      Icons.navigate_next,
+                      color: Colors.yellow,
+                      size: 40,
                     ),
                   ),
                 ),
