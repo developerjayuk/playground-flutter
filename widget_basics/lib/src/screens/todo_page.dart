@@ -46,70 +46,120 @@ class _TodoPageState extends State<TodoPage> {
       context: context,
       isScrollControlled: true,
       builder: (context) {
-        return Padding(
-          padding: EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              TextField(
-                controller: _controller,
-                decoration: InputDecoration(hintText: 'New Todo Item'),
-              ),
-              Padding(padding: EdgeInsets.all(20), child: Text('Priority: ')),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        return StatefulBuilder(
+          builder: (context, setBuilderState) {
+            return Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Column(
                 children: [
-                  Row(
-                    children: [
-                      Radio<Priority>(
-                        value: Priority.low,
-                        groupValue: todoPriority,
-                        onChanged: (value) {
-                          setState(() {
-                            todoPriority = value!;
-                          });
-                        },
-                      ),
-                      Text(Priority.low.name),
-                    ],
+                  TextField(
+                    controller: _controller,
+                    decoration: InputDecoration(hintText: 'New Todo Item'),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Text('Select the priority: '),
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Radio<Priority>(
-                        value: Priority.medium,
-                        groupValue: todoPriority,
-                        onChanged: (value) {
-                          setState(() {
-                            todoPriority = value!;
-                          });
-                        },
+                      Row(
+                        children: [
+                          Radio<Priority>(
+                            value: Priority.low,
+                            groupValue: todoPriority,
+                            onChanged: (value) {
+                              setBuilderState(() {
+                                todoPriority = value!;
+                              });
+                            },
+                          ),
+                          Text(Priority.low.name),
+                        ],
                       ),
-                      Text(Priority.medium.name),
+                      Row(
+                        children: [
+                          Radio<Priority>(
+                            value: Priority.medium,
+                            groupValue: todoPriority,
+                            onChanged: (value) {
+                              setBuilderState(() {
+                                todoPriority = value!;
+                              });
+                            },
+                          ),
+                          Text(Priority.medium.name),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Radio<Priority>(
+                            value: Priority.high,
+                            groupValue: todoPriority,
+                            onChanged: (value) {
+                              setBuilderState(() {
+                                todoPriority = value!;
+                              });
+                            },
+                          ),
+                          Text(Priority.high.name),
+                        ],
+                      ),
                     ],
                   ),
-                  Row(
-                    children: [
-                      Radio<Priority>(
-                        value: Priority.high,
-                        groupValue: todoPriority,
-                        onChanged: (value) {
-                          setState(() {
-                            todoPriority = value!;
-                          });
-                        },
-                      ),
-                      Text(Priority.high.name),
-                    ],
-                  ),
+                  ElevatedButton(onPressed: _save, child: Text('Save')),
                 ],
               ),
-            ],
-          ),
+            );
+          },
         );
       },
     );
   }
+
+  void _save() {
+    if (_controller.text.isEmpty) {
+      showMessage(context, 'You must enter a todo item');
+      return;
+    }
+
+    final todo = MyTodo(
+      id: DateTime.now().millisecondsSinceEpoch,
+      name: _controller.text,
+      priority: todoPriority,
+    );
+
+    MyTodo.todos.add(todo);
+
+    setState(() {});
+    _controller.clear();
+    Navigator.pop(context);
+  }
 }
 
+// GLOBAL FUNCTION
+void showMessage(BuildContext context, String s) {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Stack(
+        children: [
+          Text('Warning'),
+          Align(
+            alignment: Alignment.topRight,
+            child: TextButton(
+              child: Icon(Icons.close),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ),
+        ],
+      ),
+      content: Text(s),
+    ),
+  );
+}
+
+// CLASSES
 class MyTodo {
   int id;
   String name;
@@ -119,7 +169,7 @@ class MyTodo {
   MyTodo({
     required this.id,
     required this.name,
-    required this.completed,
+    this.completed = false,
     required this.priority,
   });
 
@@ -146,4 +196,5 @@ class TodoItem extends StatelessWidget {
   }
 }
 
+// ENUMS
 enum Priority { high, medium, low }
