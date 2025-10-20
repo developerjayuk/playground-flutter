@@ -3,6 +3,9 @@ import '../blocs/bloc.dart';
 import '../blocs/provider.dart';
 
 class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
+
+  @override
   Widget build(context) {
     final bloc = Provider.of(context);
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:widget_basics/src/home_page.dart';
 import 'package:widget_basics/src/screens/profile_page.dart';
 import 'package:widget_basics/src/screens/todo_page.dart';
 import 'package:widget_basics/src/screens/travel_page.dart';

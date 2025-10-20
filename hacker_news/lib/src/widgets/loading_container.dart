@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 
 class LoadingContainer extends StatelessWidget {
+  const LoadingContainer({super.key});
+
   @override
   Widget build(context) {
     return Column(
       children: [
-        ListTile(
-          title: buildEmptyBox(),
-          subtitle: buildEmptyBox(),
-        ),
+        ListTile(title: buildEmptyBox(), subtitle: buildEmptyBox()),
         Divider(height: 8.0),
       ],
     );

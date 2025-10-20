@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import '../mixins/validation_mixin.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
   createState() {
     return LoginScreenState();
   }
@@ -13,6 +16,7 @@ class LoginScreenState extends State<LoginScreen> with ValidationMixin {
   String? email;
   String? password;
 
+  @override
   Widget build(context) {
     return Container(
       margin: EdgeInsets.all(20.0),

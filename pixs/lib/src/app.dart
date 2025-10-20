@@ -5,6 +5,9 @@ import 'dart:convert';
 import 'widgets/image_list.dart';
 
 class App extends StatefulWidget {
+  const App({super.key});
+
+  @override
   createState() {
     return AppState();
   }
@@ -41,7 +44,7 @@ class AppState extends State<App> {
         /// a button typically placed in the bottom right corner of the screen that performs a specific action
         /// when pressed. In this case, the `onPressed` property is set to a function named `onPressed`, which
         /// will be called when the button is pressed.
-        body: ImageList(images),
+        body: ImageList(images: images),
         floatingActionButton: FloatingActionButton(
           onPressed: fetchImage,
           child: Icon(Icons.add),

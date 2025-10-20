@@ -4,7 +4,7 @@ import '../models/image_model.dart';
 class ImageList extends StatelessWidget {
   final List<ImageModel> images;
 
-  ImageList(this.images);
+  const ImageList({super.key, required this.images});
 
   @override
   Widget build(BuildContext context) {

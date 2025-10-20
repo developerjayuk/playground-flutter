@@ -4,6 +4,8 @@ import '../widgets/news_list_square.dart';
 import '../widgets/refresh.dart';
 
 class NewsList extends StatelessWidget {
+  const NewsList({super.key});
+
   @override
   Widget build(context) {
     final bloc = StoriesProvider.of(context);

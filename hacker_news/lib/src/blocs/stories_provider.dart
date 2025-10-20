@@ -5,9 +5,7 @@ export 'stories_bloc.dart';
 class StoriesProvider extends InheritedWidget {
   final StoriesBloc bloc;
 
-  StoriesProvider({Key? key, required Widget child})
-    : bloc = StoriesBloc(),
-      super(key: key, child: child);
+  StoriesProvider({super.key, required super.child}) : bloc = StoriesBloc();
 
   @override
   bool updateShouldNotify(_) => true;
