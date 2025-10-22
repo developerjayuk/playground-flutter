@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wurdle_game/providers/wurdle_provider.dart';
+import 'package:wurdle_game/utils.dart';
 import 'package:wurdle_game/widgets/keyboard_view.dart';
 import 'package:wurdle_game/widgets/wurdle_view.dart';
 
@@ -71,9 +72,27 @@ class _WurdlePageState extends State<WurdlePage> {
                     ElevatedButton(
                       onPressed: () {
                         if (!provider.isAValidWord) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Not in our Dictionary')),
-                          );
+                          showMessage(context, 'Not in our Dictionary');
+                        }
+
+                        if (provider.allRowFilled) {
+                          // check the answer
+                          provider.checkAnswer();
+
+                          if (provider.winner) {
+                            showResult(
+                              context: context,
+                              title: 'Winner',
+                              body:
+                                  '${provider.targetWord} was the Answer! You are a genius!',
+                              onPlayAgain: () {
+                                provider.resetGame();
+                              },
+                              onCancel: () {},
+                            );
+                          }
+
+                          //
                         }
                       },
                       child: Row(

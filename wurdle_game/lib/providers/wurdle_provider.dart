@@ -13,6 +13,9 @@ class WurdleProvider extends ChangeNotifier {
   int count = 0;
   int index = 0;
   final lettersPerRow = 5;
+  final totalAttempts = 6;
+  int attempt = 0;
+  bool winner = false;
 
   String targetWord = '';
 
@@ -57,5 +60,53 @@ class WurdleProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool get isAValidWord => totalWords.contains(rowInputs.join('').toLowerCase());
+  void checkAnswer() {
+    final guess = rowInputs.join('');
+
+    if (guess == targetWord) {
+      winner = true;
+    } else {
+      _markLetterOnBoard();
+      if (attempt < totalAttempts) {
+        _goToNextRow();
+      }
+    }
+  }
+
+  void resetGame() {
+    rowInputs.clear();
+    excludedLetters.clear();
+    count = 0;
+    index = 0;
+    winner = false;
+    init();
+
+    notifyListeners();
+  }
+
+  void _markLetterOnBoard() {
+    for (int i = 0; i < wurdleBoard.length; i++) {
+      var letter = wurdleBoard[i].letter;
+
+      if (letter.isNotEmpty && targetWord.contains(letter)) {
+        wurdleBoard[i].isInTarget = true;
+      } else if (letter.isNotEmpty && !targetWord.contains(letter)) {
+        wurdleBoard[i].isNotInTarget = true;
+        excludedLetters.add(letter);
+        print(excludedLetters);
+      }
+    }
+
+    notifyListeners();
+  }
+
+  void _goToNextRow() {
+    attempt++;
+    count = 0;
+    rowInputs.clear();
+  }
+
+  bool get isAValidWord =>
+      totalWords.contains(rowInputs.join('').toLowerCase());
+  bool get allRowFilled => rowInputs.length == lettersPerRow;
 }
