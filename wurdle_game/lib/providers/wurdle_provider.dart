@@ -73,12 +73,28 @@ class WurdleProvider extends ChangeNotifier {
     }
   }
 
+  void resetRow() {
+    // Clear the last 5 entries from the board
+    for (int i = 0; i < 5; i++) {
+      if (index > 0) {
+        wurdleBoard[index - 1] = Wurdle(letter: '');
+        index--;
+      }
+    }
+    count = 0;
+    rowInputs.clear();
+    notifyListeners();
+  }
+
   void resetGame() {
     rowInputs.clear();
     excludedLetters.clear();
+    wurdleBoard.clear();
+    attempt = 0;
     count = 0;
     index = 0;
     winner = false;
+    targetWord = '';
     init();
 
     notifyListeners();
@@ -109,4 +125,5 @@ class WurdleProvider extends ChangeNotifier {
   bool get isAValidWord =>
       totalWords.contains(rowInputs.join('').toLowerCase());
   bool get allRowFilled => rowInputs.length == lettersPerRow;
+  bool get noAttemptsLeft => attempt >= totalAttempts;
 }

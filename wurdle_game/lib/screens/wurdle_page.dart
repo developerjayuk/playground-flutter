@@ -73,6 +73,7 @@ class _WurdlePageState extends State<WurdlePage> {
                       onPressed: () {
                         if (!provider.isAValidWord) {
                           showMessage(context, 'Not in our Dictionary');
+                          provider.resetRow();
                         }
 
                         if (provider.allRowFilled) {
@@ -86,9 +87,26 @@ class _WurdlePageState extends State<WurdlePage> {
                               body:
                                   '${provider.targetWord} was the Answer! You are a genius!',
                               onPlayAgain: () {
+                                Navigator.pop(context);
                                 provider.resetGame();
                               },
-                              onCancel: () {},
+                              onCancel: () {
+                                Navigator.pop(context);
+                              },
+                            );
+                          } else if (provider.noAttemptsLeft) {
+                            showResult(
+                              context: context,
+                              title: "Game Over - you lost!",
+                              body:
+                                  'The correct word was ${provider.targetWord}',
+                              onPlayAgain: () {
+                                Navigator.pop(context);
+                                provider.resetGame();
+                              },
+                              onCancel: () {
+                                Navigator.pop(context);
+                              },
                             );
                           }
 
