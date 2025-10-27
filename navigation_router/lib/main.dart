@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:navigation_router/error_page.dart';
 import 'package:navigation_router/home_page.dart';
 import 'package:navigation_router/page_one.dart';
 import 'package:navigation_router/page_one_details.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
   final _router = GoRouter(
     initialLocation: '/',
     debugLogDiagnostics: true,
+    errorBuilder: (context, state) => const ErrorPage(),
     routes: [
       GoRoute(
         name: HomePage.routeName,
