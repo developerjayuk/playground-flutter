@@ -1,0 +1,42 @@
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:virtual_contacts_app/pages/home_page.dart';
+import 'package:virtual_contacts_app/pages/scan_page.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp.router(
+      title: 'Virtual Contacts',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      ),
+      routerConfig: _router,
+    );
+  }
+
+  final _router = GoRouter(
+    debugLogDiagnostics: true,
+    routes: [
+      GoRoute(
+        name: HomePage.routeName,
+        path: HomePage.routeName,
+        builder: (context, state) => const HomePage(),
+        routes: [
+          GoRoute(
+            name: ScanPage.routeName,
+            path: ScanPage.routeName,
+            builder: (context, state) => const ScanPage(),
+          ),
+        ],
+      ),
+    ],
+  );
+}
