@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
 import 'package:virtual_contacts_app/pages/home_page.dart';
 import 'package:virtual_contacts_app/pages/scan_page.dart';
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       routerConfig: _router,
+      builder: EasyLoading.init(),
     );
   }
 
