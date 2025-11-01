@@ -7,3 +7,8 @@ abstract final class ContactProperties {
   static const String company = "Company";
   static const String designation = "Designation";
 }
+
+const String hint =
+    'Drag and drop each item from the list below, to the fields above';
+
+const String emptyFieldError = 'This field must not be empty!';
