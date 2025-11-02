@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:virtual_contacts_app/models/contact_model.dart';
+import 'package:virtual_contacts_app/pages/home_page.dart';
+import 'package:virtual_contacts_app/provider/contact_provider.dart';
 import 'package:virtual_contacts_app/utils/constants.dart';
+import 'package:virtual_contacts_app/utils/helper_functions.dart';
 
 class FormPage extends StatefulWidget {
   static const String routeName = 'form';
@@ -131,6 +136,22 @@ class _FormPageState extends State<FormPage> {
       widget.contactModel.address = addressController.text;
       widget.contactModel.designation = designationController.text;
       widget.contactModel.website = websiteController.text;
+    }
+
+    try {
+      final value = await Provider.of<ContactProvider>(
+        context,
+        listen: false,
+      ).insertContact(widget.contactModel);
+      if (mounted && value > 0) {
+        showMessage(context, 'Successfully saved');
+        context.goNamed(HomePage.routeName);
+      }
+    } catch (error) {
+      if (mounted) {
+        print(error);
+        showMessage(context, 'Error, please check logs');
+      }
     }
   }
 }
