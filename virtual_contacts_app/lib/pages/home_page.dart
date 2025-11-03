@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:virtual_contacts_app/pages/scan_page.dart';
 import 'package:virtual_contacts_app/provider/contact_provider.dart';
+import 'package:virtual_contacts_app/utils/helper_functions.dart';
 
 class HomePage extends StatefulWidget {
   static const String routeName = '/';
@@ -69,10 +70,18 @@ class _HomePageState extends State<HomePage> {
                 child: const Icon(Icons.delete, size: 25, color: Colors.white),
               ),
               confirmDismiss: _showConfirmationDialog,
+              onDismissed: (_) async {
+                await provider.deleteContact(contact.id);
+                if (mounted) {
+                  showMessage(context, 'Deleted');
+                }
+              },
               child: ListTile(
                 title: Text(contact.name),
                 trailing: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    provider.updateFavorite(contact);
+                  },
                   icon: Icon(
                     contact.favorite ? Icons.favorite : Icons.favorite_border,
                   ),
@@ -92,6 +101,20 @@ class _HomePageState extends State<HomePage> {
       builder: (context) => AlertDialog(
         title: const Text('Delete Contact'),
         content: const Text('Are you sure?'),
+        actions: [
+          OutlinedButton(
+            onPressed: () {
+              context.pop(false);
+            },
+            child: const Text('No'),
+          ),
+          OutlinedButton(
+            onPressed: () {
+              context.pop(true);
+            },
+            child: const Text('Yes'),
+          ),
+        ],
       ),
     );
   }
