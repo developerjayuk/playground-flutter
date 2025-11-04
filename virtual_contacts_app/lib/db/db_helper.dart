@@ -27,6 +27,11 @@ class DbHelper {
       onCreate: (db, version) {
         db.execute(_createTableContact);
       },
+      onUpgrade: (db, oldVersion, newVersion) {
+        if (oldVersion == 1) {
+          // do any migration or changes needed
+        }
+      },
     );
   }
 
@@ -38,6 +43,17 @@ class DbHelper {
   Future<List<ContactModel>> getAllContacts() async {
     final db = await _open();
     final mapList = await db.query(tblContact);
+
+    return mapList.map((map) => ContactModel.fromMap(map)).toList();
+  }
+
+  Future<List<ContactModel>> getAllFavoriteContacts() async {
+    final db = await _open();
+    final mapList = await db.query(
+      tblContact,
+      where: '$tblContactColFavorite = ?',
+      whereArgs: [1],
+    );
 
     return mapList.map((map) => ContactModel.fromMap(map)).toList();
   }
@@ -56,6 +72,7 @@ class DbHelper {
     return db.update(
       tblContact,
       {tblContactColFavorite: value},
+      where: '$tblContactColId = ?',
       whereArgs: [id],
     );
   }

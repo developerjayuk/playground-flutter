@@ -20,6 +20,11 @@ class ContactProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> getAllFavoriteContacts() async {
+    contactList = await db.getAllFavoriteContacts();
+    notifyListeners();
+  }
+
   Future<int> deleteContact(int id) async {
     return db.deleteContact(id);
   }
@@ -29,8 +34,14 @@ class ContactProvider extends ChangeNotifier {
     final value = toggle ? 1 : 0;
     await db.updateFavorite(contactModel.id, value);
 
-    final index = contactList.indexOf(contactModel);
-    contactList[index].favorite = toggle;
+    final index = contactList.indexWhere((c) => c.id == contactModel.id);
+    if (index != -1) {
+      if (toggle) {
+        contactList[index].favorite = toggle;
+      } else {
+        contactList.removeAt(index);
+      }
+    }
 
     notifyListeners();
   }
