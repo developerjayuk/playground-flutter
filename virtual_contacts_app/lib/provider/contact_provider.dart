@@ -20,6 +20,10 @@ class ContactProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<ContactModel?> getContactById(int id) async {
+    return await db.getContactById(id);
+  }
+
   Future<void> getAllFavoriteContacts() async {
     contactList = await db.getAllFavoriteContacts();
     notifyListeners();

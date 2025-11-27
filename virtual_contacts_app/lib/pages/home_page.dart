@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:virtual_contacts_app/pages/contact_details_page.dart';
 import 'package:virtual_contacts_app/pages/scan_page.dart';
 import 'package:virtual_contacts_app/provider/contact_provider.dart';
 import 'package:virtual_contacts_app/utils/helper_functions.dart';
@@ -78,6 +79,12 @@ class _HomePageState extends State<HomePage> {
                 }
               },
               child: ListTile(
+                onTap: () {
+                  context.goNamed(
+                    ContactDetailsPage.routeName,
+                    extra: contact.id,
+                  );
+                },
                 title: Text(contact.name),
                 trailing: IconButton(
                   onPressed: () {
